@@ -6,7 +6,7 @@ This repository contains commands to set up the FedScale project and download th
 ## Quick start
 To start the quick configuration of fedscale you can open a new terminal and type in this command line:
 
-chmod +x setup.sh && ./setup.sh
+chmod +x tutorial/setup.sh && ./tutorial/setup.sh
 
 
 ## Setup
