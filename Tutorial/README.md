@@ -15,7 +15,7 @@ chmod +x setup.sh && ./setup.sh
 1. Clone the FedScale repository:
 
     ```
-    git clone https://github.com/SymbioticLab/FedScale.git
+    git clone https://github.com/AyoubSaidane/FedScale.git
     ```
 
 2. Navigate to the cloned directory:
