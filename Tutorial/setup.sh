@@ -1,5 +1,5 @@
 # Clone the repository
-git clone https://github.com/SymbioticLab/FedScale.git && \
+git clone https://github.com/AyoubSaidane/FedScale.git && \
 # Navigate to the cloned directory
 cd FedScale && \
 # Run the installation script with CUDA support
