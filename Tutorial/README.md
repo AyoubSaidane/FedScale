@@ -37,6 +37,12 @@ These commands will install the necessary dependencies, set up the FedScale envi
 
 ## Usage
 
+### Configuration
+
+Change the training and configuration parameters in [conf.yml](https://github.com/AyoubSaidane/FedScale/blob/master/benchmark/configs/femnist/conf.yml), by specifying the IP address of server and clients and their number. You can change any training parameter too.  
+
+### Execution
+
 Once the setup is complete, you can proceed with using the FedScale project for your experiments or research in federated learning.
 To train from Femnist dataset run this command line:
 ```
