@@ -6,8 +6,9 @@ This repository contains commands to set up the FedScale project and download th
 ## Quick start
 To start the quick configuration of fedscale you can open a new terminal and type in this command line:
 
+```
 chmod +x Tutorial/setup.sh && ./Tutorial/setup.sh
-
+```
 
 ## Setup
 
@@ -37,6 +38,19 @@ These commands will install the necessary dependencies, set up the FedScale envi
 ## Usage
 
 Once the setup is complete, you can proceed with using the FedScale project for your experiments or research in federated learning.
+To train from Femnist dataset run this command line:
+```
+python docker/driver.py start benchmark/configs/femnist/conf.yml
+```
+To stop the training process run this command:
+```
+python docker/driver.py stop femnist
+```
+And to visualize the training results using Tensorboard use this command:
+```
+%load_ext tensorboard
+%tensorboard --logdir /content/FedScale/benchmark/logs/femnist
+```
 
 For more information on how to use FedScale, please refer to the project documentation.
 
