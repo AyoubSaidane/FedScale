@@ -10,6 +10,7 @@ class MeaMedAggregator(Aggregator):
 
     def __init__(self, args):
         super().__init__(args)
+        self.client_updates = [] # accumulate client updates
         self.byzantine_proportion = 1/4  # This should be equal to the fraction f/n, for now we assume f/n = 0.25
 
     def update_weight_aggregation(self, results):
@@ -20,19 +21,16 @@ class MeaMedAggregator(Aggregator):
         if type(update_weights) is dict:
             update_weights = [x for x in update_weights.values()]
 
-        if self._is_first_result_in_round():
-            self.model_weights = update_weights
-            client_updates = update_weights
-        else:
-            client_updates.append(update_weights)
+        self.client_updates.append(update_weights)
 
 
         if self._is_last_result_in_round():
-            self.model_weights = self.mean_around_median(self, client_updates)
+            self.model_weights = self.mean_around_median(self.client_updates)
             self.model_wrapper.set_weights(
                 copy.deepcopy(self.model_weights),
                 client_training_results=self.client_training_results,
             )
+            self.client_updates = []
     
     def mean_around_median(self, client_updates):
         """

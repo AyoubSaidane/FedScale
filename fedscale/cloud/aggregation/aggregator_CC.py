@@ -11,6 +11,7 @@ class CCAggregator(Aggregator):
     
     def __init__(self, args):
         super().__init__(args)
+        self.client_updates = [] # accumulate client updates
         self.clipping_parameter = 1 # This is an arbitrary value that should be changed later to match theoretical results
         self.iteration_number = 10 # This is an arbitrary value that should be changed later to match theoretical results
         
@@ -23,18 +24,15 @@ class CCAggregator(Aggregator):
         if type(update_weights) is dict:
             update_weights = [x for x in update_weights.values()]
 
-        if self._is_first_result_in_round():
-            self.model_weights = update_weights
-            client_updates = update_weights
-        else:
-            client_updates.append(update_weights)
+        self.client_updates.append(update_weights)
 
         if self._is_last_result_in_round():
-            self.model_weights = self.centered_clipping(client_updates)
+            self.model_weights = self.centered_clipping(self.client_updates)
             self.model_wrapper.set_weights(
                 copy.deepcopy(self.model_weights),
                 client_training_results=self.client_training_results,
             )
+            self.client_updates = []
 
     def centered_clipping(self, client_updates):
         """

@@ -8,6 +8,10 @@ import torch
 class CwMedAggregator(Aggregator):
     """Updates the aggregation with the new results using Coordinate-wise median."""
 
+    def __init__(self, args):
+        super().__init__(args)
+        self.client_updates = [] # accumulate client updates
+
     def update_weight_aggregation(self, results):
         """
         :param results: the results collected from a client.
@@ -16,18 +20,15 @@ class CwMedAggregator(Aggregator):
         if type(update_weights) is dict:
             update_weights = [x for x in update_weights.values()]
 
-        if self._is_first_result_in_round():
-            self.model_weights = update_weights
-            client_updates = update_weights
-        else:
-            client_updates.append(update_weights)
+        self.client_updates.append(update_weights)
 
         if self._is_last_result_in_round():
-            self.model_weights  = self.median_accross_client(client_updates)
+            self.model_weights  = self.median_accross_client(self.client_updates)
             self.model_wrapper.set_weights(
                 copy.deepcopy(self.model_weights),
                 client_training_results=self.client_training_results,
             )
+            self.client_updates = []
     
     def median_accross_client(self, client_updates):
         """
