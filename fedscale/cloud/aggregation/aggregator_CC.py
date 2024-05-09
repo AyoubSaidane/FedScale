@@ -54,7 +54,7 @@ class CCAggregator(Aggregator):
             median_weights.append(torch.median(torch.stack([torch.tensor(client[i]) for client in client_updates]), dim=0)[0].numpy())
         return median_weights
     
-    def clipp(z, clipping_parameter):
+    def clipp(self, z, clipping_parameter):
         """
         clipping function for Centered Clipping
         """
