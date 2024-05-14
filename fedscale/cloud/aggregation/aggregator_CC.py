@@ -42,7 +42,8 @@ class CCAggregator(Aggregator):
         for _ in range(self.iteration_number):
             for client in client_updates:
                 for i in range(len(client)):
-                    aggregate[i] += self.clipp(client[i]-aggregate[i], self.clipping_parameter)/len(client_updates)
+                    if not(client[i].ndim == 0 and aggregate[i].ndim == 0):
+                        aggregate[i] += self.clipp(client[i]-aggregate[i], self.clipping_parameter)/len(client_updates)
         return aggregate
 
     def median_accross_client(self, client_updates):
