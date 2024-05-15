@@ -27,7 +27,7 @@ class Customized_Client(TorchClient):
             np.random.shuffle(label_mapping)
 
         logging.info(f"Start to train (CLIENT: {client_id}) ...")
-        device = conf.device
+        device = self.device
 
         last_model_params = [p.data.clone() for p in model.parameters()]
         model = model.to(device=device)
