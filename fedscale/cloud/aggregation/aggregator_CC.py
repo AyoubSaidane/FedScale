@@ -59,7 +59,10 @@ class CCAggregator(Aggregator):
         """
         clipping function for Centered Clipping
         """
-        return z * min(1,clipping_parameter/np.linalg.norm(np.array(z)))
+        if np.linalg.norm(np.array(z)) == 0.0:
+            return z
+        else:
+            return z * min(1,clipping_parameter/np.linalg.norm(np.array(z)))
 
 
 if __name__ == "__main__":
