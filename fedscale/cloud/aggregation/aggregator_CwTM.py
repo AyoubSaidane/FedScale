@@ -37,7 +37,7 @@ class CwTMAggregator(Aggregator):
         """
         trimmed_mean_weights = []
         for i in range(len(client_updates[0])):
-            trimmed_mean_weights.append(np.apply_along_axis(trim_mean, axis=0, arr=np.stack([client[i] for client in client_updates]), proportiontocut=self.byzantine_proportion))
+            trimmed_mean_weights.append(trim_mean(np.stack([client[i] for client in client_updates]), proportiontocut=self.byzantine_proportion, axis=0))
         return trimmed_mean_weights
 
 
