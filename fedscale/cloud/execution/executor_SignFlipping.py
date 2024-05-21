@@ -1,30 +1,26 @@
-from fedscale.cloud.execution.executor import Executor
-from fedscale.cloud.fllibs import *
-import numpy as np
-import copy
+# -*- coding: utf-8 -*-
 
+import os
+import sys
+
+
+from client_SignFlipping import SignFlippingClient
+
+import fedscale.cloud.config_parser as parser
+from fedscale.cloud.execution.executor import Executor
+
+
+"""In this example, we only need to change the TorchClient Component we need to import"""
 
 class SignFlippingExecutor(Executor):
-    def __init__(self, config):
-        super().__init__(config)
-        self.byzantine_proportion = 1/4  # Probability of returning the opposite sign
+    """Each executor takes certain resource to run real training.
+       Each run simulates the execution of an individual client"""
+        
 
-    def Train(self, config):
-        client_id, train_res = super().Train(config)
-        # Randomly decide whether to return the opposite sign
-        if np.random.random() < self.byzantine_proportion:
-            return client_id, self.sign_flipping(train_res)
-        return client_id, train_res
-    
-    def sign_flipping(self, results):
-        Byz_results = copy.deepcopy(results)
-        update_weights = Byz_results["update_weight"]
-        assert isinstance(update_weights, dict), "update_weights must be a dictionary"
-        for key, value in update_weights.items():
-            Byz_results['update_weight'][key] = -value
-        return Byz_results
-
+    def get_client_trainer(self, conf):
+        return SignFlippingClient(conf)
 
 if __name__ == "__main__":
     executor = SignFlippingExecutor(parser.args)
     executor.run()
+
