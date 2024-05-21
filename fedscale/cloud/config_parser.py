@@ -116,7 +116,7 @@ parser.add_argument("--backbone", type=str, default="./resnet50.pth")
 
 
 # for malicious
-parser.add_argument("--malicious_factor", type=int, default=1e15)
+parser.add_argument("--malicious_factor", type=float, default=0.25)
 
 # for asynchronous FL
 parser.add_argument("--max_concurrency", type=int, default=10)
