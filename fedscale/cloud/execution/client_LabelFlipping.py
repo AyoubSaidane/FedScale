@@ -7,6 +7,7 @@ import numpy as np
 import torch
 from clip_norm import clip_grad_norm_
 from torch.autograd import Variable
+from fractions import Fraction
 
 from fedscale.cloud.execution.torch_client import TorchClient
 
@@ -19,7 +20,8 @@ class LabelFlippingClient(TorchClient):
         client_id = conf.client_id
 
         """1 out of malicious_factor client is malicious"""
-        is_malicious = ((client_id+1) % conf.malicious_factor == 0)
+        fraction = Fraction(conf.malicious_factor).limit_denominator()
+        is_malicious = ((client_id+1) % fraction.denominator <= fraction.numerator - 1)
 
         if is_malicious:
             label_mapping = list(range(conf.num_class))
@@ -109,4 +111,3 @@ class LabelFlippingClient(TorchClient):
         results['wall_duration'] = 0
 
         return results
-
